@@ -1,5 +1,5 @@
 const { MongoClient } = require('mongodb');
-const uri = "mongodb://127.0.0.1:27017"; // connect to local mongodb
+const uri = process.env.MONGO_URI; 
 
 const client = new MongoClient(uri);
 const dbName = "users";
