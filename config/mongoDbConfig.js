@@ -1,22 +1,25 @@
-const {MongoClient} = require('mongodb');
-const uri = "mongodb://localhost:27017"; // connect to local mongodb
+const { MongoClient } = require('mongodb');
+const uri = "mongodb://127.0.0.1:27017"; // connect to local mongodb
 
 const client = new MongoClient(uri);
 const dbName = "users";
 let dbConnection;
 
-async function connectDb(){
+async function connectDb(callback) {
     try {
-        const db = client.db(dbName)
-    }catch(err){
+        await client.connect();
+        const db = client.db(dbName);
+        dbConnection = db;
+        callback(null, db); 
+    } catch (err) {
         await client.close();
         console.log(err);
-        throw err;
+        callback(err, null);  
     }
 }
 
-function getDb(){
+function getDb() {
     return dbConnection;
 }
 
-module.exports = {connectDb, getDb};
+module.exports = { connectDb, getDb };

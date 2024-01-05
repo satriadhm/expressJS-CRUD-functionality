@@ -1,5 +1,5 @@
 const { ObjectId } = require('mongodb');
-const { getDb } = require('../config/mongoDbConfig');
+const { getDb } = require('../config/mongodbConfig');
 
 class product {
     static product() {

@@ -1,5 +1,5 @@
 const { ObjectId } = require('mongodb');
-const { getDb } = require('../config/mongoDbConfig');
+const { getDb } = require('../config/mongodbConfig');
 
 class User {
     static user() {
@@ -9,13 +9,17 @@ class User {
     static findById(id) {
         return this.user().findOne(
           { _id: ObjectId(id) },
-          { projection: { password: 0 } }
         );
       }
     
+    static findByEmail(email){
+      return this.user().findOne(
+        { email: email }
+      );
+    }
       static findAll() {
         return this.user()
-          .find({}, { projection: { password: 0 } })
+          .find({})
           .toArray();
       }
     

@@ -2,7 +2,17 @@ const bcrypt = require('bcryptjs');
 
 // Hash
 
-const hasPassword =  (password) => bcrypt.hash(password, 12);
+const hashPassword =  async (password) => bcrypt.hash(password, 12);
 
-// compare
-const comparePassword = (password, hashedPassword) => bcrypt.compare(password, hashedPassword);
+const comparePassword = async (password, hashedPassword) => {
+    try {
+        console.log('password:', password);
+        console.log('hashedPassword:', hashedPassword);
+      const match = await bcrypt.compareSync(password, hashedPassword.toString());
+      return match;
+    } catch (error) {
+      throw error;
+    }
+  };
+
+module.exports = { hashPassword, comparePassword };
