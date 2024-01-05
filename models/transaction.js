@@ -21,7 +21,7 @@ class transaction {
       }
     
       static create(transaction) {
-        return this.user().insertOne(transaction);
+        return this.transaction().insertOne(transaction);
       }
     
       static destroy(id) {

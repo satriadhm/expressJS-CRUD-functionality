@@ -1,5 +1,7 @@
 const { getDb } = require("../config/mongodbConfig");
 const Transaction = require("../models/transaction");
+const User = require("../models/user");
+const Product = require("../models/product");
 
 class TransactionController {
     static async items(req, res, next) {
@@ -18,6 +20,9 @@ class TransactionController {
             if (!productId) throw { name: "ProductId is required" };
             if (!quantity) throw { name: "Quantity is required" };
             if (!status) throw { name: "Status is required" };
+
+            if (User.findById(userId) === null) throw { name: "User not found" };
+            if (Product.findById(productId) === null) throw { name: "Product not found" };
 
             const transaction = await Transaction.create({
                 userId,
