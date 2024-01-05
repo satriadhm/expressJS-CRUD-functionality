@@ -10,7 +10,7 @@ class TransactionController {
             .then((data) => console.log(data));
         res.status(200).json("ok");
     }
-    static async register(req, res, next) {
+    static async addTransaction(req, res, next) {
         try {
             const { userId, productId, quantity, status } = req.body;
 
@@ -34,7 +34,7 @@ class TransactionController {
             next(err);
         }
     }
-    static async transactions(req, res, next) {
+    static async getAllTransactions(req, res, next) {
         try {
             await Transaction.findAll().then((transactions) => {
                 res.status(200).json(transactions);
@@ -43,7 +43,7 @@ class TransactionController {
             next(err);
         }
     }
-    static async transaction  (req, res, next) {
+    static async getTransaction(req, res, next) {
         try {
             const id = req.params.id;
             const transaction = await Transaction.findById(id);
@@ -54,10 +54,10 @@ class TransactionController {
             next(err);
         }
     }
-    static async delete (req,res,next) {
+    static async deleteTransaction (req,res,next) {
         try {
             const id = req.params.id;
-            const transaction = await Transaction.delete(id);
+            const transaction = await Transaction.destroy(id);
             if (!transaction) throw { name: "Transaction not found" };
             res.status(200).json(transaction);
         } catch (err) {

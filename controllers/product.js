@@ -11,7 +11,7 @@ class ProductController {
         res.status(200).json("ok");
     }
 
-    static async register(req, res, next) {
+    static async addProduct(req, res, next) {
         try {
             const { name, price, stock, image } = req.body;
 
@@ -35,7 +35,7 @@ class ProductController {
             next(err);
         }
     }
-    static async products(req, res, next) {
+    static async getAllProducts(req, res, next) {
         try {
             await Product.findAll().then((products) => {
                 res.status(200).json(products);
@@ -45,7 +45,7 @@ class ProductController {
         }
     }
     
-    static async product(req, res, next) {
+    static async getProduct(req, res, next) {
         try {
             const id = req.params.id;
             const product = await Product.findById(id);
@@ -57,7 +57,7 @@ class ProductController {
         }
     }
 
-    static async delete (req,res,next) {
+    static async deleteProduct (req,res,next) {
         try {
             const id = req.params.id;
             const product = await Product.findById(id);

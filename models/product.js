@@ -24,7 +24,7 @@ class product {
       }
     
       static destroy(id) {
-        return this.user().deleteOne({ _id: ObjectId(id) });
+        return this.product().deleteOne({ _id: ObjectId(id) });
       }
 }
 
