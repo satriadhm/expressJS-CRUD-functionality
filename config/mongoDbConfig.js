@@ -1,25 +1,14 @@
-const { MongoClient } = require('mongodb');
-const uri = process.env.MONGO_URI; 
+const mongoose = require('mongoose');
 
-const client = new MongoClient(uri);
-const dbName = "product_service";
-let dbConnection;
+const connectDb = async () => {
+    const uri = process.env.MONGO_URI;
+    if (!uri) throw new Error('MONGO_URI is not defined');
 
-async function connectDb(callback) {
-    try {
-        await client.connect();
-        const db = client.db(dbName);
-        dbConnection = db;
-        callback(null, db); 
-    } catch (err) {
-        await client.close();
-        console.log(err);
-        callback(err, null);  
-    }
-}
+    await mongoose.connect(uri, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+    });
+    console.log('Database connected');
+};
 
-function getDb() {
-    return dbConnection;
-}
-
-module.exports = { connectDb, getDb };
+module.exports = { connectDb };
