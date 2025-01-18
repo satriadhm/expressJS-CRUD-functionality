@@ -1,108 +1,185 @@
-[![Express Logo](https://i.cloudup.com/zfY6lL7eFa-3000x3000.png)](http://expressjs.com/)
+# User-Product Transaction API
 
-  Fast, unopinionated, minimalist web framework for [Node.js](http://nodejs.org).
+![Express Logo](https://i.cloudup.com/zfY6lL7eFa-3000x3000.png)
 
-  [![NPM Version][npm-version-image]][npm-url]
-  [![NPM Install Size][npm-install-size-image]][npm-install-size-url]
-  [![NPM Downloads][npm-downloads-image]][npm-downloads-url]
+A lightweight and fast RESTful API built with **Express.js** for managing users, products, and transactions. The project uses MongoDB as the database, JWT for authentication, and modularized controllers, services, and routes for maintainability.
 
+---
+
+## Features
+- **User Management**:
+  - Register, Login, and retrieve user details.
+- **Product Management**:
+  - Add, view, and delete products.
+- **Transaction Management**:
+  - Create and view transactions.
+- Secure authentication with JWT.
+- Comprehensive error handling.
+
+---
 
 ## Installation
 
-If this is a brand new project, make sure to create a `package.json` first with
-the [`npm init` command](https://docs.npmjs.com/creating-a-package-json-file).
+### Prerequisites
+- Node.js 14+ installed.
+- MongoDB instance running locally or on a cloud service (e.g., MongoDB Atlas).
 
-Installation is done using the
-[`npm install` command](https://docs.npmjs.com/getting-started/installing-npm-packages-locally):
+### Steps
+1. Clone the repository:
+   ```bash
+   git clone <repository-url>
+   cd satriadhm-user-product-boilerplate
+   ```
 
-```console
-$ npm install express
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+3. Set up environment variables:
+   - Copy the `.env.example` file to `.env`:
+     ```bash
+     cp .env.example .env
+     ```
+   - Update the following variables in `.env`:
+     ```plaintext
+     MONGO_URI=your-mongodb-uri
+     JWT_SECRET=your-jwt-secret
+     PORT=3000
+     ```
+
+4. Start the development server:
+   ```bash
+   npm run dev
+   ```
+   The server will start on `http://localhost:3000`.
+
+5. For production:
+   ```bash
+   npm start
+   ```
+
+---
+
+## API Endpoints
+
+### **User Endpoints**
+- **Register**:  
+  `POST /users/register`  
+  Example request body:
+  ```json
+  {
+    "username": "johndoe",
+    "email": "johndoe@example.com",
+    "password": "password123"
+  }
+  ```
+
+- **Login**:  
+  `POST /users/login`  
+  Example request body:
+  ```json
+  {
+    "email": "johndoe@example.com",
+    "password": "password123"
+  }
+  ```
+
+- **Get All Users**:  
+  `GET /users/`
+
+- **Get User by ID**:  
+  `GET /users/:id`
+
+---
+
+### **Product Endpoints**
+- **Add Product**:  
+  `POST /products/` (Requires JWT Auth)
+  Example request body:
+  ```json
+  {
+    "name": "Product A",
+    "price": 100,
+    "stock": 50,
+    "image": "http://example.com/image.jpg"
+  }
+  ```
+
+- **Get All Products**:  
+  `GET /products/`
+
+- **Get Product by ID**:  
+  `GET /products/:id`
+
+- **Delete Product**:  
+  `DELETE /products/:id` (Requires JWT Auth)
+
+---
+
+### **Transaction Endpoints**
+- **Add Transaction**:  
+  `POST /transactions/` (Requires JWT Auth)  
+  Example request body:
+  ```json
+  {
+    "userId": "60d0fe4f5311236168a109ca",
+    "productId": "60d0fe4f5311236168a109cb",
+    "quantity": 2,
+    "total": 200
+  }
+  ```
+
+- **Get All Transactions**:  
+  `GET /transactions/`
+
+- **Get Transaction by ID**:  
+  `GET /transactions/:id`
+
+---
+
+## Project Structure
+```plaintext
+satriadhm-user-product-boilerplate/
+├── controllers/         # Contains request handlers
+├── models/              # Mongoose schemas and models
+├── services/            # Business logic for models
+├── routes/              # API route definitions
+├── helpers/             # Utility functions like bcrypt and JWT
+├── middlewares/         # Authentication and error handling
+├── config/              # MongoDB connection configuration
+├── .env.example         # Example environment variables
+├── server.js            # Main server file
+└── package.json         # Project dependencies and scripts
 ```
 
-  Create the app:
+---
 
-```console
-$ express /tmp/foo && cd /tmp/foo
-```
+## Scripts
 
-  Install dependencies:
+- **Start the app**:
+  ```bash
+  npm start
+  ```
+- **Run in development** (with nodemon):
+  ```bash
+  npm run dev
+  ```
+- **Run tests**:
+  ```bash
+  npm test
+  ```
 
-```console
-$ npm install
-```
-
-  Start the server:
-
-```console
-$ npm start
-```
-
-  View the website at: http://localhost:3000
-
-Available API 
-
-**User**
-
-Register
-```console
-http://localhost:3000/users/register
-```
-Login
-```console
-http://localhost:3000/users/login
-```
-
-**Product**
-
-Add New Product
-```console
-http://localhost:3000/products/add
-```
-Get All Products
-```console
-http://localhost:3000/products/
-```
-Get One Product
-```console
-http://localhost:3000/products/:id
-```
-Delete Product
-```console
-http://localhost:3000/products/:id
-```
-
-**Transaction**
-
-Add New Transaction
-```console
-http://localhost:3000/transactions/add
-```
-Get All Transactions
-```console
-http://localhost:3000/transactions/
-```
-get One Transaction
-```console
-http://localhost:3000/transactions/:id
-```
-Delete Transaction
-```console
-http://localhost:3000/transactions/:id
-```
+---
 
 ## License
+[MIT](LICENSE)
 
-  [MIT](LICENSE)
+---
 
-[appveyor-image]: https://badgen.net/appveyor/ci/dougwilson/express/master?label=windows
-[appveyor-url]: https://ci.appveyor.com/project/dougwilson/express
-[coveralls-image]: https://badgen.net/coveralls/c/github/expressjs/express/master
-[coveralls-url]: https://coveralls.io/r/expressjs/express?branch=master
-[github-actions-ci-image]: https://badgen.net/github/checks/expressjs/express/master?label=linux
-[github-actions-ci-url]: https://github.com/expressjs/express/actions/workflows/ci.yml
-[npm-downloads-image]: https://badgen.net/npm/dm/express
-[npm-downloads-url]: https://npmcharts.com/compare/express?minimal=true
-[npm-install-size-image]: https://badgen.net/packagephobia/install/express
-[npm-install-size-url]: https://packagephobia.com/result?p=express
-[npm-url]: https://npmjs.org/package/express
-[npm-version-image]: https://badgen.net/npm/v/express
+## Improvements
+1. Implement rate-limiting middleware for enhanced security.
+2. Add unit and integration tests using Jest.
+3. Set up CI/CD pipeline for automated testing and deployment.
+
+---
